@@ -50,20 +50,21 @@ public class FrontControllerServletV5 extends HttpServlet {
             return;
         }
 
-        MyHandlerAdapter adapter = getHandlerAdapter(handler);
-        ModelView mv = adapter.handle(request, response, handler);
 
 //        // controller.process() 를 처리하기 위해 model이 우선 필요
 //        Map<String, String> paramMap = createParamMap(request);
 //
 //        //본작업
 //        ModelView mv = controller.process(paramMap);
+
+        MyHandlerAdapter adapter = getHandlerAdapter(handler);
+        ModelView mv = adapter.handle(request, response, handler);
 //
 //        //Model과 View 처리
-//        String viewName = mv.getViewName(); //view의 논리 이름
-//
-//        MyView view = viewResolver(viewName);
-//        view.render(mv.getModel(),request,response);
+        String viewName = mv.getViewName(); //view의 논리 이름
+
+        MyView view = viewResolver(viewName);
+        view.render(mv.getModel(),request,response);
 
     }
 
@@ -79,6 +80,10 @@ public class FrontControllerServletV5 extends HttpServlet {
             }
         }
         throw new IllegalArgumentException("handler adapter를 찾을 수 없습니다. handler=" + handler);
+    }
+
+    private MyView viewResolver(String viewName) {
+        return new MyView("/WEB-INF/views/" + viewName + ".jsp");
     }
 
 }
