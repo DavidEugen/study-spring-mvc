@@ -43,13 +43,12 @@ public class FrontControllerServletV5 extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String requestURI = request.getRequestURI();
-//        ControllerV3 controller = controllerMap.get(requestURI);
+
         Object handler = getHandler(request);
-//        if (controller == null) {
-//            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-//            return;
-//        }
+        if (handler == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
 //
 //        // controller.process() 를 처리하기 위해 model이 우선 필요
 //        Map<String, String> paramMap = createParamMap(request);
