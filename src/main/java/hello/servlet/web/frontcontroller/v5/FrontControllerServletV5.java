@@ -49,7 +49,10 @@ public class FrontControllerServletV5 extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-//
+
+        MyHandlerAdapter adapter = getHandlerAdapter(handler);
+        ModelView mv = adapter.handle(request, response, handler);
+
 //        // controller.process() 를 처리하기 위해 model이 우선 필요
 //        Map<String, String> paramMap = createParamMap(request);
 //
@@ -68,4 +71,14 @@ public class FrontControllerServletV5 extends HttpServlet {
         String requestURI = request.getRequestURI();
         return handlerMappingMap.get(requestURI);
     }
+
+    private MyHandlerAdapter getHandlerAdapter(Object handler) {
+        for (MyHandlerAdapter adapter : handlerAdapters) {
+            if (adapter.supports(handler)) {
+                return adapter;
+            }
+        }
+        throw new IllegalArgumentException("handler adapter를 찾을 수 없습니다. handler=" + handler);
+    }
+
 }
