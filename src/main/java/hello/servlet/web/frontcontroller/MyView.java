@@ -24,9 +24,13 @@ public class MyView {
     }
 
     public void render(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        model.forEach((key, value) -> request.setAttribute(key, value)); // 각 controller에서 request를 통해 Model에 값을 넣어 주던 것을 공통으로 처리
+        modelToRequestAttribute(model, request);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
         dispatcher.forward(request, response);
+    }
+
+    private static void modelToRequestAttribute(Map<String, Object> model, HttpServletRequest request) {
+        model.forEach((key, value) -> request.setAttribute(key, value)); // 각 controller에서 request를 통해 Model에 값을 넣어 주던 것을 공통으로 처리
     }
 }

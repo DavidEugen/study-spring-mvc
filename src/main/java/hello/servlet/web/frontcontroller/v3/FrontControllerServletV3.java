@@ -41,8 +41,7 @@ public class FrontControllerServletV3 extends HttpServlet {
         }
 
         // controller.process() 를 처리하기 위해 model이 우선 필요
-        Map<String, String> paramMap = new HashMap<>();
-        request.getParameterNames().asIterator().forEachRemaining(paramName -> paramMap.put(paramName, request.getParameter(paramName)));
+        Map<String, String> paramMap = createParamMap(request);
 
         //본작업
         ModelView mv = controller.process(paramMap);
@@ -50,8 +49,18 @@ public class FrontControllerServletV3 extends HttpServlet {
         //Model과 View 처리
         String viewName = mv.getViewName(); //view의 논리 이름
 
-        MyView view = new MyView("WEB-INF/views/" + viewName + ".jsp");
+        MyView view = viewResolver(viewName);
         view.render(mv.getModel(),request,response);
 
+    }
+
+    private static MyView viewResolver(String viewName) { //view를 찾아 가는 역할을 하는 기능이라 해서 viewResolver
+        return new MyView("/WEB-INF/views/" + viewName + ".jsp");
+    }
+
+    private static Map<String, String> createParamMap(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<>();
+        request.getParameterNames().asIterator().forEachRemaining(paramName -> paramMap.put(paramName, request.getParameter(paramName)));
+        return paramMap;
     }
 }
