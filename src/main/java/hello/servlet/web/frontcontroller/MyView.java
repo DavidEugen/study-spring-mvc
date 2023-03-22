@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class MyView {
 
@@ -22,4 +23,10 @@ public class MyView {
         //이제 매 서비스 마다 dispatcher.forward() 호출 할 필요 없이 MyView 에 viewPath만 넣으면 된다.
     }
 
+    public void render(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        model.forEach((key, value) -> request.setAttribute(key, value)); // 각 controller에서 request를 통해 Model에 값을 넣어 주던 것을 공통으로 처리
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
+        dispatcher.forward(request, response);
+    }
 }
