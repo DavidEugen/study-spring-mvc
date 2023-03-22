@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ControllerV3HandlerAdapter implements MyHandlerAdapter{
     @Override
@@ -19,7 +21,18 @@ public class ControllerV3HandlerAdapter implements MyHandlerAdapter{
         //frontController에서 supports로 사용 가능 여부 확인 할거다.. 따라서 해당 메소드 실행은 타입이 맞다는 전제 성립
         ControllerV3 controller = (ControllerV3) handler;
 
+        Map<String, String> paramMap = createParamMap(request);
         //controller.process();
-        return null;
+
+        ModelView mv = controller.process(paramMap);
+
+        return mv;
     }
+
+    private static Map<String, String> createParamMap(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<>();
+        request.getParameterNames().asIterator().forEachRemaining(paramName -> paramMap.put(paramName, request.getParameter(paramName)));
+        return paramMap;
+    }
+
 }
