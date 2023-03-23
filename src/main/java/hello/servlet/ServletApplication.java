@@ -14,9 +14,9 @@ public class ServletApplication {
 		SpringApplication.run(ServletApplication.class, args);
 	}
 
-	@Bean
-	TestController testController() {
-		return new TestController();
-	}
+//	@Bean
+//	TestController testController() {
+//		return new TestController();
+//	}
 
 }
