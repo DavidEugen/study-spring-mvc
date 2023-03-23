@@ -11,6 +11,7 @@ public class OldController implements Controller {
     //import org.springframework.stereotype.Controller; 와는 구분!!
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // SimpleControllerHandlerAdapter 에 읫해
         System.out.println("OldController.handleRequest");
         return null;
     }
